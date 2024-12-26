@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -20,7 +21,7 @@ public class FileService {
     this.rootLocation = Paths.get(uploadDir);
   }
 
-  public String store(MultipartFile file) throws FileException {
+  public Map<String, String> store(MultipartFile file) throws FileException {
     String fileName = file.getOriginalFilename();
     String fileExtension = fileName.substring(fileName.lastIndexOf("."));
     String newFileName = UUID.randomUUID().toString() + fileExtension;
@@ -33,6 +34,17 @@ public class FileService {
       throw new FileException("Failed to store file " + newFileName + "\n" + e.toString());
     }
 
-    return newFileName;
+    Map<String, String> response = Map.of("fileName", newFileName, "route", destinationFile.toString());
+    return response;
+  }
+
+  public void delete(String fileName) throws FileException {
+    Path destinationFile = this.rootLocation.resolve(Paths.get(fileName)).normalize().toAbsolutePath();
+
+    try {
+      Files.delete(destinationFile);
+    } catch (IOException e) {
+      throw new FileException("Failed to delete file " + fileName + "\n" + e.toString());
+    }
   }
 }

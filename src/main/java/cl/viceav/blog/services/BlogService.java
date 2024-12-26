@@ -12,10 +12,12 @@ import org.springframework.web.multipart.MultipartFile;
 import cl.viceav.blog.data.Entry;
 import cl.viceav.blog.data.EntryRepository;
 import cl.viceav.blog.exceptions.FileException;
+import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Valid;
 
 @Service
 public class BlogService {
+
   @Autowired
   private EntryRepository entryRepository;
 
@@ -35,11 +37,34 @@ public class BlogService {
     return response;
   }
 
-  public String addEntry(@Valid MultipartFile file, @Valid String title) {
+  public String addEntry(@Valid MultipartFile file, String title) {
+    Map<String, String> response;
+
     try {
-      return fileService.store(file);
+      response = fileService.store(file);
     } catch (FileException e) {
       return e.getMessage();
     }
+
+    Entry entry = new Entry();
+    entry.setFileName(response.get("fileName"));
+    entry.setRoute(response.get("route"));
+    entry.setTitle(title);
+
+    try {
+      entryRepository.save(entry);
+    } catch (ConstraintViolationException e) {
+      String message = e.getMessage();
+
+      try {
+        fileService.delete(response.get("fileName"));
+      } catch (FileException ex) {
+        message += "\n" + ex.getMessage();
+      }
+
+      return message;
+    }
+
+    return "Entry added successfully";
   }
 }

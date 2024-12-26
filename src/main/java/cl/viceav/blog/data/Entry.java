@@ -25,8 +25,7 @@ public class Entry {
   @NotNull
   private String title;
 
-  @NotNull
-  @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+  @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", nullable = false)
   private ZonedDateTime created_at;
 
   private Boolean modified;
