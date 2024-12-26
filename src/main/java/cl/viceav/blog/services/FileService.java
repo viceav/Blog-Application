@@ -1,4 +1,4 @@
-package cl.viceav.blog.service;
+package cl.viceav.blog.services;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import cl.viceav.blog.exception.FileException;
+import cl.viceav.blog.exceptions.FileException;
 
 @Service
 public class FileService {

@@ -1,4 +1,4 @@
-package cl.viceav.blog.service;
+package cl.viceav.blog.services;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import cl.viceav.blog.data.Entry;
 import cl.viceav.blog.data.EntryRepository;
-import cl.viceav.blog.exception.FileException;
+import cl.viceav.blog.exceptions.FileException;
 import jakarta.validation.Valid;
 
 @Service

@@ -1,4 +1,4 @@
-package cl.viceav.blog.validator;
+package cl.viceav.blog.validators;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

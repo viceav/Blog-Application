@@ -1,4 +1,4 @@
-package cl.viceav.blog.validator;
+package cl.viceav.blog.validators;
 
 import org.springframework.web.multipart.MultipartFile;
 
