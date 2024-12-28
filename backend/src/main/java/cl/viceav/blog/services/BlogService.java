@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,7 +26,8 @@ public class BlogService {
   private FileService fileService;
 
   public Map<String, Object> getBlog(Integer number) {
-    Page<Entry> page = entryRepository.findAll(PageRequest.of(number, 10));
+    Sort sort = Sort.by(Sort.Direction.DESC, "createdAt");
+    Page<Entry> page = entryRepository.findAll(PageRequest.of(number, 10, sort));
 
     Map<String, Object> response = new HashMap<>();
     response.put("entries", page.getContent());
@@ -66,5 +68,23 @@ public class BlogService {
     }
 
     return "Entry added successfully";
+  }
+
+  public String deleteEntry(Integer id) {
+    Entry entry = entryRepository.findById(id).orElse(null);
+
+    if (entry == null) {
+      return "Entry not found";
+    }
+
+    try {
+      fileService.delete(entry.getFileName());
+    } catch (FileException e) {
+      return e.getMessage();
+    }
+
+    entryRepository.delete(entry);
+
+    return "Entry deleted successfully";
   }
 }

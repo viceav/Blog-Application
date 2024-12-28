@@ -22,12 +22,16 @@ public class BlogController {
 
   @GetMapping("/get/{number}")
   public Map<String, Object> getBlog(@PathVariable("number") Integer number) {
-
     return blogService.getBlog(number);
   }
 
   @PostMapping("/add")
   public String addEntry(@RequestParam("entry") @ValidFile MultipartFile file, @RequestParam("title") String title) {
     return blogService.addEntry(file, title);
+  }
+
+  @PostMapping("/delete")
+  public String deleteEntry(@RequestParam("id") Integer id) {
+    return blogService.deleteEntry(id);
   }
 }

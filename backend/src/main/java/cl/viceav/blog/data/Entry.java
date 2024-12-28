@@ -26,11 +26,11 @@ public class Entry {
   private String title;
 
   @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", nullable = false)
-  private ZonedDateTime created_at;
+  private ZonedDateTime createdAt;
 
   private Boolean modified;
 
-  private Timestamp modified_at;
+  private Timestamp modifiedAt;
 
   public String getTitle() {
     return title;
@@ -48,12 +48,12 @@ public class Entry {
     this.modified = modified;
   }
 
-  public Timestamp getModified_at() {
-    return modified_at;
+  public Timestamp getModifiedAt() {
+    return modifiedAt;
   }
 
-  public void setModified_at(Timestamp modified_at) {
-    this.modified_at = modified_at;
+  public void setModifiedAt(Timestamp modifiedAt) {
+    this.modifiedAt = modifiedAt;
   }
 
   public void setRoute(String route) {
@@ -76,7 +76,7 @@ public class Entry {
     return fileName;
   }
 
-  public ZonedDateTime getCreated_at() {
-    return created_at;
+  public ZonedDateTime getCreatedAt() {
+    return createdAt;
   }
 }

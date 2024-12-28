@@ -13,8 +13,9 @@ public class BlogSecurity {
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    http.authorizeHttpRequests((requests) -> requests.requestMatchers(HttpMethod.GET, "/blog/get/**").permitAll()
-        .anyRequest().authenticated());
+    http.authorizeHttpRequests(
+        (requests) -> requests.requestMatchers(HttpMethod.GET, "/blog/get/**").permitAll()
+            .anyRequest().authenticated());
 
     return http.build();
   }
