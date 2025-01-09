@@ -21,6 +21,16 @@ public class FileService {
     this.rootLocation = Paths.get(uploadDir);
   }
 
+  public byte[] getFile(String fileName) throws FileException {
+    Path destinationFile = this.rootLocation.resolve(Paths.get(fileName)).normalize().toAbsolutePath();
+
+    try {
+      return Files.readAllBytes(destinationFile);
+    } catch (IOException e) {
+      throw new FileException("Failed to read file " + fileName + "\n" + e.toString());
+    }
+  }
+
   public Map<String, String> store(MultipartFile file) throws FileException {
     String fileName = file.getOriginalFilename();
     String fileExtension = fileName.substring(fileName.lastIndexOf("."));

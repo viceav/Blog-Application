@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,6 +27,19 @@ public class BlogService {
 
   @Autowired
   private FileService fileService;
+
+  public ResponseEntity<byte[]> getEntry(Integer id) {
+    try {
+      Entry entry = entryRepository.findById(id).get();
+      String fileName = entry.getFileName();
+      byte[] file = fileService.getFile(fileName);
+      HttpHeaders headers = new HttpHeaders();
+      headers.setContentType(MediaType.TEXT_MARKDOWN);
+      return ResponseEntity.ok().headers(headers).body(file);
+    } catch (Exception e) {
+      return ResponseEntity.notFound().build();
+    }
+  }
 
   public Map<String, Object> getBlog(Integer number) {
     Sort sort = Sort.by(Sort.Direction.DESC, "createdAt");

@@ -3,6 +3,7 @@ package cl.viceav.blog.controllers;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +24,11 @@ public class BlogController {
   @GetMapping("/get/{number}")
   public Map<String, Object> getBlog(@PathVariable("number") Integer number) {
     return blogService.getBlog(number);
+  }
+
+  @GetMapping("/get/entry/{number}")
+  public ResponseEntity<byte[]> getEntry(@PathVariable("number") Integer number) {
+    return blogService.getEntry(number);
   }
 
   @PostMapping("/add")
